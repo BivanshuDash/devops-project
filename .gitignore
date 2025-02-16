@@ -1,6 +1,20 @@
 # Terraform files
-.terraform
+.terraform/
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
-backend-server-key.pem
+
+# SSH Keys
+*.pem
+*.ppk
+
+# Local .terraform directories
+**/.terraform/*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Sensitive data
+*.tfvars
+*.tfvars.json
