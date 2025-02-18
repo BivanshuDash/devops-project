@@ -16,9 +16,11 @@ This repository hosts a full-stack Todo List application designed to allow users
 
 ## Project Structure
 
-The project is divided into two main parts:
+The project is divided into three main parts:
 - **Frontend**: Located in the `frontend/` directory with its own [README](frontend/README.md).
 - **Backend**: Located in the `backend/` directory with its own [README](backend/README.md).
+
+- **Infrastructure**: Located in the `infrastructure/` directory with its own [README](infrastructure/README.md).
 
 # DevOps Project
 
@@ -36,7 +38,7 @@ devops-project/
 ## Components
 - Frontend: React application
 - Backend: Node.js API
-- Infrastructure: AWS resources managed with Terraform
+- Infrastructure: AWS resources managed with Terraform, Docker Compose, and Ansible
 
 ## Getting Started
 1. Set up infrastructure:
