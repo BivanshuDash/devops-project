@@ -20,6 +20,46 @@ The project is divided into two main parts:
 - **Frontend**: Located in the `frontend/` directory with its own [README](frontend/README.md).
 - **Backend**: Located in the `backend/` directory with its own [README](backend/README.md).
 
+# DevOps Project
+
+## Project Structure
+```
+devops-project/
+├── Frontend/
+├── Backend/
+└── infrastructure/
+    ├── versions.tf
+    ├── .gitignore
+    └── README.md
+```
+
+## Components
+- Frontend: React application
+- Backend: Node.js API
+- Infrastructure: AWS resources managed with Terraform
+
+## Getting Started
+1. Set up infrastructure:
+   ```bash
+   cd infrastructure
+   terraform init
+   terraform apply
+   ```
+
+2. Deploy backend:
+   ```bash
+   cd Backend
+   npm install
+   npm start
+   ```
+
+3. Deploy frontend:
+   ```bash
+   cd Frontend
+   npm install
+   npm start
+   ```
+
 ## Features
 
 - Create, view, update, and delete todo items.

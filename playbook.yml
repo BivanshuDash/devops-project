@@ -1,0 +1,201 @@
+- name: Setup Docker and Deploy App
+  hosts: localhost
+  become: true
+  become_method: sudo
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    project_dir: "/mnt/c/Users/rishi/devops-project"
+
+  tasks:
+    - name: Install Python3, pip3, and Docker SDK for Python
+      apt:
+        name:
+          - python3
+          - python3-pip
+          - python3-docker
+        state: present
+        update_cache: yes
+
+    - name: Install Docker dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+        update_cache: yes
+
+    - name: Install Docker and Docker Compose
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add current user to Docker group
+      user:
+        name: "{{ ansible_env.USER }}"
+        groups: docker
+        append: yes
+
+    - name: Create project directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items:
+        - "{{ project_dir }}"
+        - "{{ project_dir }}/Frontend"
+        - "{{ project_dir }}/Backend"
+
+    - name: Create docker-compose.yml
+      copy:
+        content: |
+          version: '3'
+          services:
+            frontend:
+              build:
+                context: ./Frontend
+              ports:
+                - "80:80"
+              depends_on:
+                - backend
+            backend:
+              build:
+                context: ./Backend
+              ports:
+                - "5000:5000"
+        dest: "{{ project_dir }}/docker-compose.yml"
+        mode: '0644'
+
+    - name: Ensure project directory exists
+      file:
+        path: "{{ project_dir }}"
+        state: directory
+
+    - name: Run Docker Compose
+      community.docker.docker_compose:
+        project_src: "{{ project_dir }}"
+        state: present
+---
+- name: Setup Docker and Deploy App
+  hosts: localhost
+  become: true
+  become_method: sudo
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    project_dir: "/mnt/c/Users/rishi/devops-project"
+
+  tasks:
+    - name: Install Python3, pip3, and Docker SDK for Python
+      apt:
+        name:
+          - python3
+          - python3-pip
+          - python3-docker
+        state: present
+        update_cache: yes
+
+    - name: Install Docker dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+        update_cache: yes
+
+    - name: Install Docker and Docker Compose
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add current user to Docker group
+      user:
+        name: "{{ ansible_env.USER }}"
+        groups: docker
+        append: yes
+
+    - name: Create project directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items:
+        - "{{ project_dir }}"
+        - "{{ project_dir }}/Frontend"
+        - "{{ project_dir }}/Backend"
+
+    - name: Create docker-compose.yml
+      copy:
+        content: |
+          version: '3'
+          services:
+            frontend:
+              build:
+                context: ./Frontend
+              ports:
+                - "80:80"
+              depends_on:
+                - backend
+            backend:
+              build:
+                context: ./Backend
+              ports:
+                - "5000:5000"
+        dest: "{{ project_dir }}/docker-compose.yml"
+        mode: '0644'
+
+    - name: Ensure project directory exists
+      file:
+        path: "{{ project_dir }}"
+        state: directory
+
+    - name: Run Docker Compose
+      community.docker.docker_compose:
+        project_src: "{{ project_dir }}"
+        state: present
