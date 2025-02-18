@@ -7,6 +7,8 @@ import Todos from "./components/Todos";
 function App() {
   return (
     <>
+
+    
       <Navbar />
       <Todos />
       <ToastContainer />
